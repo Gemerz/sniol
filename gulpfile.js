@@ -5,17 +5,17 @@ var gulp = require('gulp'),
     gulpSequence = require('gulp-sequence'),
     plugins = require('gulp-load-plugins')();
 
-var publishdir = './source';
-
+var orginDir = './source';
+var publishDir = './source/assets';
 gulp.task('default', ['watch']);
 gulp.task('bower', ['bower-files']);
-gulp.task('build', ['clean-dist','rev']);
+gulp.task('build', ['clean-dist', 'rev']);
 gulp.task('mincss', ['clean-css', 'sass', 'libcss']);
-gulp.task('minjs', ['clean-js', 'minify-js','minify-config-js']);
+gulp.task('minjs', ['clean-js', 'minify-js', 'minify-config-js']);
 
 gulp.task('watch', ['mincss', 'minjs'], function () {
     gulp.watch('source/js/**/*.js', ['minjs']);
-    gulp.watch(publishdir+'/sass/**/*.scss', ['mincss']);
+    gulp.watch(orginDir + '/sass/**/*.scss', ['mincss']);
 
 });
 
@@ -47,21 +47,21 @@ gulp.task('bower-files', ['clean-bower-files'], function () {
             },
             includeDev: true
         }))
-        .pipe(gulp.dest(publishdir + '/libs'));
+        .pipe(gulp.dest(orginDir + '/libs'));
 });
 
 gulp.task('clean-bower-files', function () {
-    return gulp.src(publishdir + '/libs/*', {read: false})
+    return gulp.src(orginDir + '/libs/*', {read: false})
         .pipe(plugins.clean({force: true}));
 });
 
 gulp.task('clean-css', function () {
-    return gulp.src(publishdir + '/css/*', {read: false})
+    return gulp.src(orginDir + '/css/*', {read: false})
         .pipe(plugins.clean({force: true}));
 });
 
 gulp.task('clean-js', function () {
-    return gulp.src(publishdir + '/js/*', {read: false})
+    return gulp.src(orginDir + '/js/*', {read: false})
         .pipe(plugins.clean({force: true}));
 });
 gulp.task('clean-dist', function () {
@@ -69,7 +69,8 @@ gulp.task('clean-dist', function () {
         .pipe(plugins.clean({force: true}));
 });
 gulp.task('sass', function () {
-    gulp.src(['sass/**/*.scss','!sass/ie8.scss'], {base: 'web'})
+
+    gulp.src([orginDir + '/sass/*.scss'], {base: 'web'})
         .pipe(plugins.sass.sync().on('error', plugins.sass.logError))
         .pipe(plugins.cssUrlAdjuster({
             replace: ['images', 'assets/images']
@@ -80,7 +81,7 @@ gulp.task('sass', function () {
         .pipe(plugins.rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(publishdir + '/css'))
+        .pipe(gulp.dest(publishDir + '/css'))
 
 
 });
@@ -92,11 +93,11 @@ gulp.task('libcss', function () {
         .pipe(plugins.rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(publishdir + '/css'))
+        .pipe(gulp.dest(publishDir + '/css'))
 });
 
 gulp.task('minify-js', function () {
-    return gulp.src(['web/assets/libs/**/*.js', '!web/assets/libs/jquery/**/*.js','!web/assets/libs/respond/**/*.js','!web/assets/libs/html5shiv/**/*.js'])
+    return gulp.src(['web/assets/libs/**/*.js', '!web/assets/libs/jquery/**/*.js', '!web/assets/libs/respond/**/*.js', '!web/assets/libs/html5shiv/**/*.js'])
         .pipe(plugins.order([
             'web/assets/libs/jquery/**/*.js'
         ]))
@@ -105,7 +106,7 @@ gulp.task('minify-js', function () {
         .pipe(plugins.rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(publishdir + '/js'))
+        .pipe(gulp.dest(publishDir + '/js'))
 });
 gulp.task('minify-config-js', function () {
     return gulp.src(['web/assets/config/**/*.js'])
@@ -114,7 +115,7 @@ gulp.task('minify-config-js', function () {
         .pipe(plugins.rename({
             suffix: ".min"
         }))
-        .pipe(gulp.dest(publishdir + '/js'))
+        .pipe(gulp.dest(publishDir + '/js'))
 });
 gulp.task('rev', function () {
     return gulp.src(['web/assets/css/*.css', 'web/assets/js/*.js'], {base: 'web'})
@@ -124,7 +125,7 @@ gulp.task('rev', function () {
             base: 'web',
             merge: true
         }))
-        .pipe(gulp.dest(publishdir + '/css'));
+        .pipe(gulp.dest(publishDir + '/css'));
 });
 
 gulp.task('minimage', function () {
