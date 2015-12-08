@@ -1,0 +1,23 @@
+{
+  "name": "sniol",
+  "description": "A hexo theme",
+  "main": "index.js",
+  "authors": [
+    "Gemer cheung"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Gemerz/sniol",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fontawesome": "~4.3.0",
+    "jquery":      "~2.1.4",
+    "fancybox":    "~2.1.5"
+  }
+}
